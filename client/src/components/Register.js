@@ -24,7 +24,7 @@ const Register = () => {
             Stno: stno, 
             City: city,
             State: state
-        })
+        }).then(window.alert("user is registered"))
         
     }
 

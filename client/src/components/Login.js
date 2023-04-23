@@ -9,6 +9,7 @@ const Login = () => {
     const [pass, setPass] = useState("");
     const [loginStatus, setLoginStatus] = useState(false); 
     const [dbaStatus, setDbaStatus] = useState(false); 
+    const [managerStatus, setManagerStatus] = useState(false); 
     const navigate = useNavigate(); 
     
     
@@ -26,17 +27,21 @@ const Login = () => {
     }).then((response) => {
         if(response.data.dba){
             setDbaStatus(true); 
-            localStorage.setItem("dba", true)
-            localStorage.setItem("user", true)
+           
             // setLoginStatus(true); 
+            localStorage.setItem('aadhar', aid); 
+        }
+        else if(response.data.manager){
+            setManagerStatus(true); 
+
             localStorage.setItem('aadhar', aid); 
         }
         else if(response.data.user){
             setLoginStatus(true); 
-            localStorage.setItem("dba", false)
-            localStorage.setItem("user", true)
+        
             localStorage.setItem('aadhar', aid); 
         }
+        
         else {
             //window.location.reload(); 
             localStorage.setItem("dba", false)
@@ -56,6 +61,7 @@ const Login = () => {
     <button onClick = {login} type='submit' > Login </button>
 
         {dbaStatus && navigate('/home0')}
+        {managerStatus && navigate('/home1')}
         {loginStatus && navigate('/home')}
 
         </div>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css';
 
 const ViewP = () => {
 
     var rel = 0; 
+    const navigate = useNavigate(); 
     const [properties, setProperties] = useState([]); 
     var id = localStorage.getItem("aadhar");
     useEffect (() => {
@@ -17,10 +19,14 @@ const ViewP = () => {
         Axios.post(`http://localhost:3001/deleteprop/${id}`).then(window.alert("the property is deleted")).then(rel = rel + 1)        
     }
 
+    const editP = (id) => {
+        navigate(`/editproperty/${id}`);
+    }
+
     return (
         <>
 
-        <table className='table table-striped table-bordered' style = {{width: "700px", right:"-1%", position: "relative"}}>
+        <table className='table table-striped table-bordered' style = {{width: "550px", right:"-2%", position: "relative"}}>
             <thead>
             <td><p> ID </p></td>
               <td><p> START_DATE  </p></td>
@@ -33,7 +39,7 @@ const ViewP = () => {
               <td><p> AGENCY_COMMISSION</p></td>
               <td><p> ADDRESS</p></td>
               <td><p> LOCALITY</p></td>
-              <td><p> YEAR_OF_CONSTRUCTION</p></td>
+              <td><p> YEAR_OF_CONS</p></td>
               <td><p> OPTION</p></td>
             </thead>
             <tbody>
@@ -52,6 +58,7 @@ const ViewP = () => {
               <td><p> {member.LOCALITY}</p></td>
               <td><p> {member.YEAR_OF_CONSTRUCTION}</p></td>
               <td><button onClick={() => {deleteP(member.ID)}}>Delete</button></td>
+              <td><button>Edit</button></td>
                 </tr>
                 )}
             </tbody>

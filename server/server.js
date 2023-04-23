@@ -66,26 +66,41 @@ app.post('/login', (req,res) => {
     
 
     const check_dba = "SELECT * FROM `dbms`.`dba` AS A INNER JOIN `dbms`.`user` AS B ON A.AADHAR_ID = B.AADHAR_ID  WHERE A.AADHAR_ID = ? AND B.PASSWORD = ?;"; 
+    const check_manger = "SELECT * FROM `dbms`.`manager` AS A INNER JOIN `dbms`.`user` AS B ON A.AADHAR_ID = B.AADHAR_ID WHERE A.AADHAR_ID = ? AND B.PASSWORD = ?;"; 
     const check_user = "SELECT * FROM `dbms`.`user` WHERE AADHAR_ID = ? AND PASSWORD = ?; "; 
 
     db.query(check_dba, [Aid, Pass], (err,resP) => {
             if(err) console.log(err); 
             if(resP.length > 0){
-                res.json({dba:true, user: false, message: 'dba login successful'})
+                res.json({dba:true, user: false,manager: true, message: 'dba login successful'})
                 console.log("dba")
             }
             else {
-                db.query(check_user,[Aid, Pass], (error, response) => {
-                    if(error) console.log(error)
+                db.query(check_manger, [Aid, Pass], (err1, resp2) => {
+                    if(err1) console.log(err1)
+
+
+                    if(resp2.length > 0){
+                        res.json({dba:false,user:false, manager: true, message: 'manager login successful'})
+                        console.log("manager")
+                    }
                     else {
-                        if(response.length == 0) { res.json({dba: false, user: false, message:"login failed" })
-                        console.log("failed");  }
-                        else {
-                            res.json({dba: false, user: true, message: "user login successful"})
-                            console.log("user")
-                        }
+                        db.query(check_user,[Aid, Pass], (error, response) => {
+                            if(error) console.log(error)
+                            else {
+                                if(response.length == 0) { res.json({dba: false, user: false, message:"login failed" })
+                                console.log("failed");  }
+                                else {
+                                    res.json({dba: false, user: true, message: "user login successful"})
+                                    console.log("user")
+                                }
+                            }
+                        })
                     }
                 })
+
+
+              
             }
     })
 
@@ -241,3 +256,13 @@ app.post("/deleteuser/:id", (req,res) => {
 
 })
 
+app.get("/details/:id", (req, res) => {
+    const id = req.params.id; 
+    const st = "SELECT * FROM `dbms`.`property` WHERE ID = ?;";
+
+    db.query(st, [id], (err,resp) => {
+        if(err) console.log(err)
+        res.send(resp);
+    })
+
+})

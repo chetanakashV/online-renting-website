@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Axios from 'axios'
 
-const AddP = () => {
+const AddProp = () => {
 
     const [stdt, setStdt] = useState(null); 
     const [endt, setEndt] = useState(null); 
@@ -14,17 +14,11 @@ const AddP = () => {
     const [address, setAddress] = useState(""); 
     const [locality, setLocality] = useState(""); 
     const [yoc, setYoc] = useState(1800); 
-    const aid = localStorage.getItem('aadhar'); 
-    const [res, setRes] = useState(false); 
-    const [flat, setFlat] = useState(false); 
-    const [beds, setBeds] = useState(1); 
-    const [shop, setShop] = useState(false); 
-    const [wait, setWait] = useState(true); 
-    var id; var i = 0, j=0; 
+    const [aid, setAid] = useState(0); 
 
     const add =  () => {
       
-        while(i<10000) i = i+1; 
+        
          
           Axios.post("http://localhost:3001/addproperty", {
             Stdt: stdt, 
@@ -39,17 +33,15 @@ const AddP = () => {
             Locality: locality, 
             Yoc: yoc, 
             Aid: aid,
-            
-        })
+          
+        }).then(window.alert("the property is added"))
      
     }
 
 
-
-
-
     return (
         <div style = {{ textAlign: "center",position: "relative",right: "-40%", width:"300px", border: "2px solid black" , borderRadius: "10px", background: "red" }}><br/>
+        <input type = "number" placeholder='enter the aadhar id of owner' onChange={e => {setAid(e.target.value)}}/>
         <label>Enter your start date</label> <br/>
         <input type = "date" onChange  = {e => {setStdt(e.target.value)}}/> <br/>
         <label>Enter your end date</label> <br/>
@@ -65,7 +57,7 @@ const AddP = () => {
         <input type = "textarea" placeholder='enter the locality of your property' onChange={e => {setLocality(e.target.value)}}/> <br/>
         <label>Enter the year of con: </label><br/>
         <input type = "number" placeholder = "YYYY"  onChange={e => {setYoc(e.target.value)}}/> <br/>
-        <label> Type: </label> <br/>
+        {/* <label> Type: </label> <br/>
         <button onClick = { () => {setRes(!res)}} style = {{width: "99px"}}>{res && <>Residential</>} {!res && <>Commercial</>} </button> <br/>
         {res && <div>
             <button onClick = {() => setFlat(!flat)} style = {{width: "95px"}}> {flat && <>Flat</>} {!flat && <>Individual</>}</button> <br/>
@@ -74,7 +66,7 @@ const AddP = () => {
 
         {!res && <div>
             <button onClick = {() => {setShop(!shop)}}> {shop && <>Shop</>} {!shop && <>Warehouse</>}</button>
-            </div>} <br/>
+            </div>} <br/> */}
         
         <button style = {{width: "150px", height: "30px", borderRadius: "5px"}} onClick = {add} > Add </button> <br/>
         <br/>
@@ -82,4 +74,4 @@ const AddP = () => {
     )
 }
 
-export default AddP; 
+export default AddProp

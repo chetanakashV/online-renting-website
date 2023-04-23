@@ -6,6 +6,7 @@ const ViewR = () => {
 
 
     const [properties, setProperties] = useState([]); 
+
     var id = localStorage.getItem("aadhar");
     useEffect (() => {
         Axios.get(`http://localhost:3001/getprops/${id}`).then((response) => {
@@ -19,7 +20,7 @@ const ViewR = () => {
 
     return (
         <>
-
+        <br/><br/>
         <table className='table table-striped table-bordered' style = {{width: "700px", right:"-1%", position: "relative"}}>
             <thead>
             <td><p> ID </p></td>

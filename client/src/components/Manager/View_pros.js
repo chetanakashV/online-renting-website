@@ -26,17 +26,18 @@ const ViewPM = () => {
     return (
         <>
 
-        <table className='table table-striped table-bordered' style = {{width: "550px", right:"-2%", position: "relative"}}>
+        <table className='table table-striped table-bordered' style = {{width: "530px", right:"-1%", position: "relative"}}>
             <thead>
             <td><p> ID </p></td>
+            <td><p> OWNER_ID </p></td>
               <td><p> START_DATE  </p></td>
               <td><p> END_DATE </p></td>
               <td><p> CITY</p></td>
-              <td><p> TOTAL_AREA</p></td>
+              <td><p> TOT_AREA</p></td>
               <td><p> PLINTH_AREA</p></td>
               <td><p> NO_OF_FLOORS</p></td>
               <td><p> RENT_PER_MONTH</p></td>
-              <td><p> AGENCY_COMMISSION</p></td>
+              <td><p> AGENCY_COMM</p></td>
               <td><p> ADDRESS</p></td>
               <td><p> LOCALITY</p></td>
               <td><p> YEAR_OF_CONS</p></td>
@@ -46,6 +47,7 @@ const ViewPM = () => {
             {properties.map(member =>
               <tr key={member.ID}>
               <td><p> {member.ID}</p></td>
+              <td><p> {member.OWNER_ID}</p></td>
               <td><p> {member.START_DATE.slice(0,10)} </p></td>
               <td><p> {member.END_DATE.slice(0,10)}</p></td>
               <td><p> {member.CITY}</p></td>

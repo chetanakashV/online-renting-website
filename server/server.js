@@ -122,7 +122,7 @@ app.post('/addproperty', (req,res) => {
     const address = req.body.Address; 
     const locality = req.body.Locality; 
     const yoc = req.body.Yoc; 
-    const oid = req.body.Aid; 
+    const oid = req.body.Aid;  
 
     const st = "INSERT INTO `dbms`.`property` (START_DATE, END_DATE, CITY, TOTAL_AREA, PLINTH_AREA, NO_OF_FLOORS, RENT_PER_MONTH, AGENCY_COMMISSION, ADDRESS, LOCALITY, YEAR_OF_CONSTRUCTION, OWNER_ID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);"; 
     const st1 = "INSERT INTO `dbms`.`residential` (TYPE,ID,NO_OF_BEDROOMS) VALUES (?,?,?);"
@@ -234,12 +234,23 @@ app.post("/deleteprop/:aadharid", (req,res) => {
     })
 })
 
-app.get("/getusers/:aid", (req, res) => {
+app.get("/getusers", (req, res) => {
 
-    const st = "SELECT * FROM `dbms`.`user` WHERE AADHAR_ID !=?;"
-    const id = req.params.aid;
+    const st = "SELECT * FROM dbms.user AS A WHERE NOT EXISTS (SELECT * FROM dbms.manager AS B WHERE B.AADHAR_ID = A.AADHAR_ID) AND NOT EXISTS (SELECT * FROM dbms.dba AS C WHERE C.AADHAR_ID = A.AADHAR_ID)"
+    
 
-    db.query(st,[id],  (err,resp) => {
+    db.query(st,  (err,resp) => {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+
+app.get("/getmanagers", (req, res) => {
+
+    const st = "SELECT * FROM dbms.manager AS A , dbms.user AS B WHERE A.AADHAR_ID = B.AADHAR_ID  ";
+   
+
+    db.query(st, (err,resp) => {
         if(err) console.log(err)
         res.send(resp)
     })
@@ -273,5 +284,61 @@ app.get("/getallprops", (req, res)=>{
     db.query(st, (err,resp)=>{
         console.log(err)
         res.send(resp);
+    })
+})
+
+app.get("/makemanager/:aid", (req,res) => {
+    const st = "INSERT INTO `dbms`.`manager` (AADHAR_ID) VALUES (?);"; 
+    // const check = "SELECT FORM `dbms`.`manager` WHERE AADHAR_ID = ?; "
+    const id = req.params.aid; 
+
+    db.query(st, [id], (err, resp) => {
+        if(err) console.log(err)
+        res.send("done")
+    })
+})
+
+app.get("/makeuser/:aid", (req,res) => {
+    const st = "DELETE FROM `dbms`.`manager` WHERE AADHAR_ID = ?; "; 
+    const id = req.params.aid; 
+
+    db.query(st, [id], (err,resp)=>{
+        if(err) console.log(err)
+        res.send("made user"); 
+    })
+})
+
+app.get("/getproperties/:city&:aid", (req,res) => {
+    const st = "SELECT * FROM `dbms`.`property` WHERE CITY = ? AND OWNER_ID != ?; ";
+    const city = req.params.city; 
+    const aid = req.params.aid; 
+
+    db.query(st, [city, aid], (err, resp) => {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+
+app.get("/getpropertiesl/:locality&:aid", (req,res) => {
+    const st = "SELECT * FROM `dbms`.`property` WHERE LOCALITY = ? AND OWNER_ID != ?; ";
+    const locality = req.params.locality; 
+    const aid = req.params.aid; 
+
+    db.query(st, [locality, aid], (err, resp) => {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+
+app.get("/getpropertiess/:minprice&:maxprice&:aid", (req,res)=>{
+    const st = "SELECT * FROM `dbms`.`property` WHERE RENT_PER_MONTH > ? AND RENT_PER_MONTH < ? AND OWNER_ID != ?;"; 
+
+    const minprice = req.params.minprice; 
+    const maxprice = req.params.maxprice; 
+    const aid = req.params.aid; 
+
+    db.query(st, [minprice, maxprice, aid] ,(err, resp) => {
+        if(err) console.log(err)
+        res.send(resp)
     })
 })

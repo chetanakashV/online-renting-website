@@ -266,3 +266,12 @@ app.get("/details/:id", (req, res) => {
     })
 
 })
+
+app.get("/getallprops", (req, res)=>{
+    const st = "SELECT * FROM `dbms`.`property`; "; 
+
+    db.query(st, (err,resp)=>{
+        console.log(err)
+        res.send(resp);
+    })
+})

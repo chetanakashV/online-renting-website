@@ -8,6 +8,7 @@ const Home = () => {
     
     const navigate = useNavigate(); 
     var user = localStorage.getItem("user")
+    var loggedin = localStorage.getItem("loggedin")
     const [ap, setAp] = useState(false); 
     const [vp, setVp] = useState(false); 
     const [lpr, setLpr] = useState(false); 
@@ -24,7 +25,6 @@ const Home = () => {
     return (
 
         <div style = {{textAlign : 'center'}}>
-           
              <br/> <br/>
         Welcome back, user {aid} <div style = {{position: "relative", right: "-40%"}}> <button onClick = {logout}> Logout </button> </div> <br/> <br/><br/>
             

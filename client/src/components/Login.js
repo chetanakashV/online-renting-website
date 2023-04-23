@@ -12,6 +12,7 @@ const Login = () => {
     const [managerStatus, setManagerStatus] = useState(false); 
     const navigate = useNavigate(); 
     
+    localStorage.setItem('loggedin', false)
     
     
 
@@ -27,25 +28,25 @@ const Login = () => {
     }).then((response) => {
         if(response.data.dba){
             setDbaStatus(true); 
-           
-            // setLoginStatus(true); 
-            localStorage.setItem('aadhar', aid); 
+           localStorage.setItem('loggedin', true)
+           // setLoginStatus(true); 
+           localStorage.setItem('aadhar', aid); 
         }
         else if(response.data.manager){
             setManagerStatus(true); 
-
+            localStorage.setItem('loggedin', true)
+            
             localStorage.setItem('aadhar', aid); 
         }
         else if(response.data.user){
             setLoginStatus(true); 
-        
+            localStorage.setItem('loggedin', true)
+            
             localStorage.setItem('aadhar', aid); 
         }
         
         else {
             //window.location.reload(); 
-            localStorage.setItem("dba", false)
-            localStorage.setItem("user", false)
             window.alert("unsuccessful login")
         }
     })

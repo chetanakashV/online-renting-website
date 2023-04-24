@@ -24,7 +24,7 @@ const EditPM = () => {
     const [address, setAddress] = useState(null); 
     const [locality, setLocality] = useState(null); 
     const [yoc, setYoc] = useState(null); 
-    const [aid, setAid] = useState(null); 
+    const [aid, setAid] = useState(localStorage.getItem("aadhar")); 
 
     var load = 0; 
     const navigate = useNavigate(); 

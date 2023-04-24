@@ -4,18 +4,28 @@ import ViewU from './Admin/View_User'
 import Register from './Register'
 import ViewPM from './Manager/View_pros'
 import AddProp from './Manager/Add_pros'
+import { useNavigate } from 'react-router'
 
 const Home0 = () => {
 
+    const navigate = useNavigate();
     const [viewU, setViewU] = useState(false)
     const [addU, setAddU] = useState(false)
     const [viewProp, setViewProp] = useState(false)
     const [viewAddProp, setViewAddProp] = useState(false); 
 
+    const logout = () => {
+        localStorage.removeItem("aadhar")
+        localStorage.setItem("user", false)
+        localStorage.setItem("dba", false)
+        navigate("/");
+    }
+
+
     return (
         <div style = {{textAlign: "center"}}><br/><br/><br/><br/>
         {/* <p> User properties: </p>
-        <Home/>  */}
+        <Home/>  */}  <div style = {{position: "relative", right: "-40%"}}> <button onClick = {logout}> Logout </button> </div><br/><br/>
 
         <button style = {{width: '200px', height: '30px', borderRadius: '5px'}} onClick={e => {setAddU(!addU)}}> Add User </button><br/> <br/> <br/>
 

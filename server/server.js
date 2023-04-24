@@ -251,7 +251,7 @@ app.get("/getmanagers", (req, res) => {
    
 
     db.query(st, (err,resp) => {
-        if(err) console.log(err)
+        if(err) console.log(err)   
         res.send(resp)
     })
 })
@@ -323,13 +323,13 @@ app.get("/getpropertiesl/:locality&:aid", (req,res) => {
     const st = "SELECT * FROM `dbms`.`property` WHERE LOCALITY = ? AND OWNER_ID != ?; ";
     const locality = req.params.locality; 
     const aid = req.params.aid; 
-
-    db.query(st, [locality, aid], (err, resp) => {
+ 
+    db.query(st, [locality, aid], (err, resp) =>  {
         if(err) console.log(err)
         res.send(resp)
     })
 })
-
+ 
 app.get("/getpropertiess/:minprice&:maxprice&:aid", (req,res)=>{
     const st = "SELECT * FROM `dbms`.`property` WHERE RENT_PER_MONTH > ? AND RENT_PER_MONTH < ? AND OWNER_ID != ?;"; 
 
@@ -341,4 +341,31 @@ app.get("/getpropertiess/:minprice&:maxprice&:aid", (req,res)=>{
         if(err) console.log(err)
         res.send(resp)
     })
+})
+
+app.post("/edittheproperty", (req,res)=>{
+    var stdt = req.body.Stdt; 
+    var endt = req.body.Endt; 
+    const city = req.body.City; 
+    const tarea = req.body.Tarea; 
+    const parea = req.body.Parea; 
+    const nof = req.body.Nof; 
+    const rent = req.body.Rent; 
+    const agecom = req.body.Agecom; 
+    const address = req.body.Address; 
+    const locality = req.body.Locality; 
+    const yoc = req.body.Yoc; 
+    const oid = req.body.Aid;    
+    const id = req.body.Id; 
+
+    stdt = stdt.slice(0,10)
+    endt = endt.slice(0,10) 
+
+    const st = 'UPDATE `dbms`.`property` SET START_DATE = ? , END_DATE = ?, CITY = ?, TOTAL_AREA = ?, PLINTH_AREA = ?, NO_OF_FLOORS = ?, RENT_PER_MONTH = ?, AGENCY_COMMISSION = ?, ADDRESS = ?, LOCALITY = ?, YEAR_OF_CONSTRUCTION =? , OWNER_ID = ? WHERE ID = ?;'; 
+
+    db.query(st, [stdt, endt, city, tarea, parea, nof, rent, agecom, address, locality,yoc, oid, id], (err, res) => {
+        if(err) console.log(err)
+        else console.log("updated")
+    })
+
 })

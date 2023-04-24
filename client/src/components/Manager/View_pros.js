@@ -20,7 +20,7 @@ const ViewPM = () => {
     }
 
     const editP = (id) => {
-        navigate(`/editproperty/${id}`);
+        navigate(`/editpropertyman/${id}`)
     }
 
     return (
@@ -60,7 +60,7 @@ const ViewPM = () => {
               <td><p> {member.LOCALITY}</p></td>
               <td><p> {member.YEAR_OF_CONSTRUCTION}</p></td>
               <td><button onClick={() => {deleteP(member.ID)}}>Delete</button></td>
-              <td><button>Edit</button></td>
+              <td><button onClick={() => {editP(member.ID)}} >Edit</button></td>
                 </tr>
                 )}
             </tbody>

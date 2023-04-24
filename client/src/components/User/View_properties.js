@@ -7,22 +7,23 @@ const ViewP = () => {
 
     var rel = 0; 
     const navigate = useNavigate(); 
-    const [properties, setProperties] = useState([]); 
+    const [properties, setProperties] = useState([]);
+    const [details, setDetails]  = useState()
     var id = localStorage.getItem("aadhar");
     useEffect (() => {
         Axios.get(`http://localhost:3001/getmyprop/${id}`).then((response) => {
             setProperties(response.data);
         })
-    }, [rel])
+    }, [])
 
     const deleteP = (id) => {
         Axios.post(`http://localhost:3001/deleteprop/${id}`).then(window.alert("the property is deleted")).then(rel = rel + 1)        
     }
 
     const editP = (id) => {
-        navigate(`/editproperty/${id}`);
+      navigate(`/editproperty/${id}`);
     }
-
+ 
     return (
         <>
 
@@ -58,7 +59,7 @@ const ViewP = () => {
               <td><p> {member.LOCALITY}</p></td>
               <td><p> {member.YEAR_OF_CONSTRUCTION}</p></td>
               <td><button onClick={() => {deleteP(member.ID)}}>Delete</button></td>
-              <td><button>Edit</button></td>
+              <td><button onClick={() => {editP(member.ID)}}>Edit</button></td>
                 </tr>
                 )}
             </tbody>

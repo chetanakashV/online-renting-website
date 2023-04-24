@@ -8,6 +8,7 @@ import Home1 from './components/Home_man';
 import Home from './components/Home'
 import EditP from './components/User/Edit_prop';
 import './App.css'
+import EditPM from './components/Manager/Edit_pros';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         < Route exact path = '/home0' element = {<Home0/>}/>
         < Route exact path = '/home1' element = {<Home1/>}/>
         <Route path = "/editproperty/:id" element = {<EditP/>}/>
+        <Route path = "/editpropertyman/:id" element = {<EditPM/>}/>
       </Routes>
     </Router>
   )

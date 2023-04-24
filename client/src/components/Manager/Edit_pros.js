@@ -3,7 +3,7 @@ import Axios from 'axios'
 import { useNavigate } from 'react-router'
 import { useParams } from 'react-router'
 
-const EditP = () => {
+const EditPM = () => {
 
     const {id} = useParams(); 
     console.log(id); 
@@ -24,7 +24,7 @@ const EditP = () => {
     const [address, setAddress] = useState(null); 
     const [locality, setLocality] = useState(null); 
     const [yoc, setYoc] = useState(null); 
-    const [aid, setAid] = useState(localStorage.getItem('aadhar')); 
+    const [aid, setAid] = useState(null); 
 
     var load = 0; 
     const navigate = useNavigate(); 
@@ -110,6 +110,7 @@ const again = () => {
     return (
             <div>  <br/> <button onClick = {again}>load </button>
         <div style = {{ textAlign: "center",position: "relative",right: "-40%", width:"300px", border: "2px solid black" , borderRadius: "10px", background: "green" }}><br/><br/>
+        <input placeholder = "Enter the aadhar id of owner" type = "number" onChange={e => {setAid(e.target.value)}}/>
         <label>Enter your start date</label> <br/>
         <input type = "date"  onChange  = {e => {setStdt(e.target.value)}}/>  <br/>
         <label>Enter your end date</label> <br/>
@@ -144,4 +145,4 @@ const again = () => {
     )
 }
 
-export default EditP; 
+export default EditPM; 

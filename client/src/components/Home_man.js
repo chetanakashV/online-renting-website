@@ -10,12 +10,19 @@ const Home1 = () => {
     const navigate = useNavigate(); 
     const [viewProp, setViewProp] = useState(false); 
     const [viewAddProp, setViewAddProp] = useState(false); 
+    var aid = localStorage.getItem("aadhar")
+
+    const logout = () => {
+        localStorage.removeItem("aadhar")
+        navigate("/");
+    }
     return (
 
         <>
        <div style = {{textAlign: "center"}}><br/><br/>
         {/* <p> User properties: </p>
-        <Home/>  */}
+        <Home/>  */}  <div style = {{position: "relative", right: "-40%"}}> <button onClick = {logout}> Logout </button> </div><br/>
+        <h5 > Welcome manager, {aid}</h5><br/><br/>
 
         <button style = {{width: '200px', height: '30px', borderRadius: '5px'}} onClick = {e => {setViewAddProp(!viewAddProp)}}> Add Property</button> <br/><br/>
         <br/> {viewAddProp && <AddProp/>} <br/><br/> <br/>

@@ -111,20 +111,21 @@ const again = () => {
             <div>  <br/> <button onClick = {again}>load </button>
         <div style = {{ textAlign: "center",position: "relative",right: "-40%", width:"300px", border: "2px solid black" , borderRadius: "10px", background: "green" }}><br/><br/>
         <label>Enter your start date</label> <br/>
-        <input type = "date"  onChange  = {e => {setStdt(e.target.value)}}/>  <br/>
+        <input type = "date"  onChange  = {e => {setStdt(e.target.value)}}  value = {stdt && stdt.slice(0,10)}  /> <br/>
         <label>Enter your end date</label> <br/>
-        <input type = "date" onChange  = {e => {setEndt(e.target.value)}}/> <br/>
-        <input type = "text" placeholder = "enter your city name" onChange={e => {setCity(e.target.value)}}/> <br/>
-        <input type = "number" placeholder = "enter total area of your property" onChange={e => {setTarea(e.target.value)}}/> <br/>
-        <input type = "number" placeholder = "enter total plinth area of your property" onChange={e => {setParea(e.target.value)}}/> <br/>
-        <input type = "number" min = "1" placeholder = "enter total no of floors of your property" onChange={e => {if(e.target.value > 1) setNof(e.target.value)}}/> <br/>
-        <input type = "number" min = "500" placeholder = "enter rent per month of your property" onChange={e => {  if(e.target.value>500) setRent(e.target.value)}}/> <br/>
-        <input type = "number" min = "500" placeholder = "enter agency commission of your property"  onChange={e => {setAgecom(e.target.value)}}/> <br/>
+        <input type = "date" onChange  = {e => {setEndt(e.target.value)}} value = {endt && endt.slice(0,10)} /> <br/>
+        <input type = "text" placeholder = "enter your city name" onChange={e => {setCity(e.target.value)}}
+        value = {city}/> <br/>
+        <input type = "number" placeholder = "enter total area of your property" onChange={e => {setTarea(e.target.value)}} value = {tarea} /> <br/>
+        <input type = "number" placeholder = "enter total plinth area of your property" onChange={e => {setParea(e.target.value)}} value = {parea} /> <br/>
+        <input type = "number" min = "1" placeholder = "enter total no of floors of your property" value = {nof} onChange={e => {if(e.target.value > 1) setNof(e.target.value)}}/> <br/>
+        <input type = "number" min = "500" placeholder = "enter rent per month of your property" value = {rent} onChange={e => {  if(e.target.value>500) setRent(e.target.value)}}/> <br/>
+        <input type = "number" min = "500" placeholder = "enter agency commission of your property" value = {agecom} onChange={e => {setAgecom(e.target.value)}}/> <br/>
         
-        <input type = "textarea" placeholder='enter the address of your property' onChange={e => {setAddress(e.target.value)}}/> <br/>
-        <input type = "textarea" placeholder='enter the locality of your property' onChange={e => {setLocality(e.target.value)}}/> <br/> 
+        <input type = "textarea" placeholder='enter the address of your property' value = {address}  onChange={e => {setAddress(e.target.value)}}/> <br/>
+        <input type = "textarea" placeholder='enter the locality of your property' value = {locality} onChange={e => {setLocality(e.target.value)}}/> <br/> 
         <label>Enter the year of con: </label><br/>
-        <input type = "number" placeholder = "YYYY"  onChange={e => {setYoc(e.target.value)}}/> <br/>
+        <input type = "number" placeholder = "YYYY" value = {yoc}  onChange={e => {setYoc(e.target.value)}}/> <br/>
         {/* <label> Type: </label> <br/>
         <button onClick = { () => {setRes(!res)}} style = {{width: "99px"}}>{res && <>Residential</>} {!res && <>Commercial</>} </button> <br/>
         {res && <div>

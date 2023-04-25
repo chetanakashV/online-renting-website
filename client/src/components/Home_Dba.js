@@ -16,8 +16,6 @@ const Home0 = () => {
 
     const logout = () => {
         localStorage.removeItem("aadhar")
-        localStorage.setItem("user", false)
-        localStorage.setItem("dba", false)
         navigate("/");
     }
 

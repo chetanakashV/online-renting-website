@@ -82,7 +82,7 @@ const again = () => {
     )
 }
 
-   
+    
     const edit = () => {
       Axios.post("http://localhost:3001/edittheproperty", {
         Stdt: stdt, 

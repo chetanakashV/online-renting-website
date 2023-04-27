@@ -127,7 +127,7 @@ app.post('/addproperty', (req,res) => {
     const st = "INSERT INTO `dbms`.`property` (START_DATE, END_DATE, CITY, TOTAL_AREA, PLINTH_AREA, NO_OF_FLOORS, RENT_PER_MONTH, AGENCY_COMMISSION, ADDRESS, LOCALITY, YEAR_OF_CONSTRUCTION, OWNER_ID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);"; 
     const st1 = "INSERT INTO `dbms`.`residential` (TYPE,ID,NO_OF_BEDROOMS) VALUES (?,?,?);"
     const st2 = "INSERT INTO `dbms`.`commercial` (TYPE, ID) VALUES (?,?);" 
-
+ 
     const idst = "SELECT MAX(ID) AS RECENT FROM `dbms`.`property`;";
     
 
@@ -208,19 +208,6 @@ app.get("/getmyprop/:aadharid", (req,res) => {
         }
     })
 })
-
-app.get("/getprops/:aadharid", (req,res) => {
-    const st = "SELECT * FROM  `dbms`.`property` WHERE OWNER_ID != ?;"; 
-    const Id = req.params.aadharid;
-    
-    db.query(st, [Id], (err, resp) => {
-        if(err) console.log(err)
-        else {
-            res.send(resp);
-        }
-    })
-})
-
 
 
 app.post("/deleteprop/:aadharid", (req,res) => {
@@ -308,40 +295,7 @@ app.get("/makeuser/:aid", (req,res) => {
     })
 })
 
-app.get("/getproperties/:city&:aid", (req,res) => {
-    const st = "SELECT * FROM `dbms`.`property` WHERE CITY = ? AND OWNER_ID != ?; ";
-    const city = req.params.city; 
-    const aid = req.params.aid; 
 
-    db.query(st, [city, aid], (err, resp) => {
-        if(err) console.log(err)
-        res.send(resp)
-    })
-})
-
-app.get("/getpropertiesl/:locality&:aid", (req,res) => {
-    const st = "SELECT * FROM `dbms`.`property` WHERE LOCALITY = ? AND OWNER_ID != ?; ";
-    const locality = req.params.locality; 
-    const aid = req.params.aid; 
- 
-    db.query(st, [locality, aid], (err, resp) =>  {
-        if(err) console.log(err)
-        res.send(resp)
-    })
-})
- 
-app.get("/getpropertiess/:minprice&:maxprice&:aid", (req,res)=>{
-    const st = "SELECT * FROM `dbms`.`property` WHERE RENT_PER_MONTH > ? AND RENT_PER_MONTH < ? AND OWNER_ID != ?;"; 
-
-    const minprice = req.params.minprice; 
-    const maxprice = req.params.maxprice; 
-    const aid = req.params.aid; 
-
-    db.query(st, [minprice, maxprice, aid] ,(err, resp) => {
-        if(err) console.log(err)
-        res.send(resp)
-    })
-})
 
 app.post("/edittheproperty", (req,res)=>{
     var stdt = req.body.Stdt; 
@@ -368,4 +322,157 @@ app.post("/edittheproperty", (req,res)=>{
         else console.log("updated")
     })
 
+})
+
+app.post("/addreq" , (req, res) => {
+    const endt = req.body.endt; 
+    const pid = req.body.pid; 
+    const oid = req.body.oid; 
+    const rid = req.body.rid; 
+
+    const st = 'INSERT INTO `dbms`.`pen_requests` (OID, PID, RID, END_DATE) VALUES (?,?,?,?); ' ;
+
+    db.query(st, [oid, pid, rid, endt], (err, resp) => {
+        if(err) console.log(err)
+        else  console.log("property requested")
+    })
+
+})
+
+app.get("/getprops/:aadharid", (req,res) => {
+    const st = "SELECT * FROM  property AS A WHERE OWNER_ID != ? AND NOT EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID) ; " ; 
+    const Id = req.params.aadharid;
+    
+    db.query(st, [Id], (err, resp) => {
+        if(err) console.log(err)
+        else {
+            res.send(resp);
+        }
+    })
+})
+
+app.get('/getrentprops/:aadharid', (req, res) => {
+    const st = "SELECT * FROM property AS A WHERE OWNER_ID != ? AND EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID); "; 
+
+    const id = req.params.aadharid; 
+
+    db.query(st, [id], (err, resp) => {
+        if(err) console.log(err)
+        else {
+            res.send(resp); 
+        }
+    })
+})
+
+app.get("/revokerequest/:pid&:rid", (req, res)=>{
+    const pid = req.params.pid;  
+    const rid = req.params.rid; 
+
+    const st = "DELETE FROM pen_requests WHERE RID = ? AND PID = ?;"; 
+
+    db.query(st, [rid, pid], (err, resp) => {
+        if(err) console.log(err)
+        else console.log("deleted request")
+    })
+})
+
+app.get("/getproperties/:city&:aid", (req,res) => {
+    const st = "SELECT * FROM property AS A WHERE CITY = ? AND OWNER_ID != ? AND NOT EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID );  ";
+    const city = req.params.city; 
+    const aid = req.params.aid; 
+
+    db.query(st, [city, aid], (err, resp) => {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+
+app.get("/getrentproperties/:city&:aid", (req,res) => {
+    const st = "SELECT * FROM property AS A WHERE CITY = ? AND OWNER_ID != ? AND  EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID );  ";
+    const city = req.params.city; 
+    const aid = req.params.aid; 
+
+    db.query(st, [city, aid], (err, resp) => {
+        if(err) console.log(err) 
+        res.send(resp)
+    })
+})
+
+app.get("/getpropertiesl/:locality&:aid", (req,res) => {
+    const st = "SELECT * FROM `dbms`.`property`AS A WHERE LOCALITY =  ? AND OWNER_ID != ? AND NOT EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID );";
+    const locality = req.params.locality; 
+    const aid = req.params.aid; 
+ 
+    db.query(st, [locality, aid], (err, resp) =>  {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+ 
+app.get("/getrentpropertiesl/:locality&:aid", (req,res) => {
+    const st = "SELECT * FROM `dbms`.`property`AS A WHERE LOCALITY =  ? AND OWNER_ID != ? AND  EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID );";
+    const locality = req.params.locality; 
+    const aid = req.params.aid; 
+ 
+    db.query(st, [locality, aid], (err, resp) =>  {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+ 
+app.get("/getpropertiess/:minprice&:maxprice&:aid", (req,res)=>{
+    const st = "SELECT * FROM `dbms`.`property` AS A WHERE RENT_PER_MONTH > ? AND RENT_PER_MONTH < ? AND OWNER_ID != ? AND NOT EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID ); "; 
+
+    const minprice = req.params.minprice; 
+    const maxprice = req.params.maxprice; 
+    const aid = req.params.aid; 
+
+    db.query(st, [minprice, maxprice, aid] ,(err, resp) => {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+
+app.get("/getrentpropertiess/:minprice&:maxprice&:aid", (req,res)=>{
+    const st = "SELECT * FROM `dbms`.`property` AS A WHERE RENT_PER_MONTH > ? AND RENT_PER_MONTH < ? AND OWNER_ID != ? AND  EXISTS (SELECT * FROM pen_requests AS B WHERE A.ID = B.PID ); "; 
+
+    const minprice = req.params.minprice; 
+    const maxprice = req.params.maxprice; 
+    const aid = req.params.aid; 
+
+    db.query(st, [minprice, maxprice, aid] ,(err, resp) => {
+        if(err) console.log(err)
+        res.send(resp)
+    })
+})
+
+
+app.get("/viewpendingreq/:aid", (req,res) => {
+    const aid = req.params.aid; 
+
+    const st = "SELECT * FROM (property AS A INNER JOIN pen_requests AS B ON A.ID = B.PID) WHERE B.OID = ?; "; 
+
+    db.query(st, [aid], (err, resp) => {
+        if(err) console.log(err)
+        else res.send(resp)
+    })
+})
+
+app.post("/acceptrequest", (req, res) => {
+    const tid = req.body.rid; 
+    const endt = req.body.endt.slice(0,10); 
+    const pid = req.body.pid; 
+
+    const del = "DELETE FROM pen_requests WHERE PID = ?;"; 
+    const ins = "INSERT INTO tenant_records VALUES(?,?,?);";
+
+    db.query(ins,[pid,tid, endt], (err, resp) => {
+        if(err) console.log(err)
+        else {
+            db.query(del, [pid],(err2, resp2) => {
+                if(err2) console.log(err2)
+                else console.log("deleted and inserted")
+            })
+        }
+    })
 })

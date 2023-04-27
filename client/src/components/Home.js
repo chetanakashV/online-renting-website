@@ -5,6 +5,7 @@ import ViewR from './User/View_rent'
 import ViewRC from './User/View_rentC';
 import ViewRL from './User/View_rentL';
 import ViewRP from './User/View_rentP';
+import ViewRq from './User/View_requests';
 import { useNavigate } from 'react-router';
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
     const [vp, setVp] = useState(false); 
     const [lpr, setLpr] = useState(false); 
     const [filter, setFilter] = useState(""); 
+    const [vreq, setVreq] = useState(false); 
     var aid = localStorage.getItem('aadhar')
 
     const logout = () => {
@@ -40,16 +42,18 @@ const Home = () => {
         Welcome back, user {aid} <div style = {{position: "relative", right: "-40%"}}> <button onClick = {logout}> Logout </button> </div> <br/> <br/><br/>
             
 
-        <button onClick={() => {setAp(!ap)}} style = {{width: '200px', height: '30px', borderRadius: '5px'}}>Add Property</button> <br/> <br/>
+        <button onClick={() => {setAp(!ap)}} style = {{width: '350px', height: '30px', borderRadius: '5px'}}>Add Property</button> <br/> <br/>
         {ap && <AddP/>} <br/><br/>
-        <button onClick = {() => {setVp(!vp)}} style = {{width: '200px', height: '30px', borderRadius: '5px'}}> View My properties</button> <br/> <br/>
+        <button onClick = {() => {setVp(!vp)}} style = {{width: '350px', height: '30px', borderRadius: '5px'}}> View My properties</button> <br/> <br/>
         {vp && <ViewP/>} <br/><br/>
-        <button onClick = {() => {setLpr(!lpr)}} style = {{width: '200px', height: '30px', borderRadius: '5px'}}> Look properties for rent </button> <br/> <br/> 
+        <button onClick = {() => {setLpr(!lpr)}} style = {{width: '350px', height: '30px', borderRadius: '5px'}}> Look properties for rent </button> <br/> <br/> 
         <br/> { lpr &&  <div> <>filter by: </> <button onClick={change} >   {filter == "" && <>none</>} {filter == "city" && <>city</>} {filter == "locality" && <>locality</>} {filter == "price" && <>price</>} <br/></button> </div>} <br/>
         {lpr && filter == "" &&  <ViewR/>}
         {lpr && filter == "city" &&  <ViewRC/>}
         {lpr && filter == "locality" &&  <ViewRL/>}
         {lpr && filter == "price" &&  <ViewRP/>}
+        <button  style = {{width: '350px', height: '30px', borderRadius: '5px'}} onClick={() => setVreq(!vreq)}> View Pending requests for my Properties</button> <br/> <br/>
+        { vreq && <ViewRq/> }<br/><br/>
         </div>
     )
 }

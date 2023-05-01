@@ -28,14 +28,14 @@ app.listen(3001, () => {
 //         if(err) console.log(err); 
 //         else console.log("inserted");
 //     })
-
-// })
+ 
+/
 
 app.post('/register', (req, res) => {
     const st = "INSERT INTO `dbms`.`user` (AADHAR_ID, NAME, AGE, PASSWORD, PIN_CODE, DOOR_NO, STATE, STREET, CITY) VALUES (?,?,?,?,?,?,?,?,?)"; 
     const check = "SELECT * FROM `dbms`.`user`  WHERE AADHAR_ID = ?"; 
     const PHCk = "SELECT * FROM phone_numbers WHERE AADHAR_ID = ? GROUP BY AADHAR_ID;";
-    const stp1 = "INSERT INTO phone_numbers VALUES (?,?,?); "; 
+    const stp1 = "INSERT INTO phone_numbers VALUES (?,?,?); ";  
     const stp2 = "INSERT INTO phone_numbers VALUES (?,?,?); "; 
 
 
@@ -56,21 +56,23 @@ app.post('/register', (req, res) => {
         if(result.length == 0){
             db.query(st,[Adid, Name, Age, Pass, Pin, Dno, State, Stno, City], (err,res) => {
                 if(err) console.log(err)
-                else console.log("it is entered")
-            })
-
-            db.query(PHCk, [Adid], (err1, resp2) => {
-                if(err1) console.log(err1)
-                if(resp2.length == 0){
-                    db.query(stp1, [Pno1, Adid, 0], (err, res) => {
-                        if(err) console.log(err)
+                else {
+                    db.query(PHCk, [Adid], (err1, resp2) => {
+                        if(err1) console.log(err1)
+                        if(resp2.length == 0){
+                            db.query(stp1, [Pno1, Adid, 0], (err, res) => {
+                                if(err)  console.log(err)
+                            })
+                            db.query(stp2, [Pno2, Adid, 1], (err, res) => {
+                                if(err) console.log(err)
+                            } )
+                        }
+          
                     })
-                    db.query(stp2, [Pno2, Adid, 1], (err, res) => {
-                        if(err) console.log(err)
-                    } )
                 }
-
-            })
+            }) 
+                 
+            
 
         }
         else {
@@ -147,15 +149,21 @@ app.post('/addproperty', (req,res) => {
     const locality = req.body.Locality; 
     const yoc = req.body.Yoc; 
     const oid = req.body.Aid;  
+    var type; 
+    const beds = req.body.Beds;
+    var subtype;
+    
+    if(req.body.Res) {type = 'res'; if(req.body.Flat) subtype = 'flat'; else subtype = 'indi'  }
+    else {type = 'com'; if(req.body.Shop) subtype = 'shop'; else subtype = 'warehouse'}
 
-    const st = "INSERT INTO `dbms`.`property` (START_DATE, END_DATE, CITY, TOTAL_AREA, PLINTH_AREA, NO_OF_FLOORS, RENT_PER_MONTH, AGENCY_COMMISSION, ADDRESS, LOCALITY, YEAR_OF_CONSTRUCTION, OWNER_ID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);"; 
-    const st1 = "INSERT INTO `dbms`.`residential` (TYPE,ID,NO_OF_BEDROOMS) VALUES (?,?,?);"
-    const st2 = "INSERT INTO `dbms`.`commercial` (TYPE, ID) VALUES (?,?);" 
+
+    const st = "INSERT INTO `dbms`.`property` (START_DATE, END_DATE, CITY, TOTAL_AREA, PLINTH_AREA, NO_OF_FLOORS, RENT_PER_MONTH, AGENCY_COMMISSION, ADDRESS, LOCALITY, YEAR_OF_CONSTRUCTION, OWNER_ID, type, sub_type, no_of_bedrooms) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"; 
+    
  
     const idst = "SELECT MAX(ID) AS RECENT FROM `dbms`.`property`;";
     
 
-    db.query(st, [stdt, endt, city, tarea, parea, nof, rent, agecom, address, locality, yoc, oid], (err, res) =>{
+    db.query(st, [stdt, endt, city, tarea, parea, nof, rent, agecom, address, locality, yoc, oid, type, subtype, beds], (err, res) =>{
         if(err) console.log(err)
         else console.log("added to properties")
     })  
@@ -290,7 +298,7 @@ app.get("/details/:id", (req, res) => {
 })
 
 app.get("/getallprops", (req, res)=>{
-    const st = "SELECT * FROM `dbms`.`property`; "; 
+    const st = "SELECT * FROM `dbms`.`property` ORDER BY ID DESC; "; 
 
     db.query(st, (err,resp)=>{
         console.log(err)
@@ -345,7 +353,7 @@ app.post("/edittheproperty", (req,res)=>{
         if(err) console.log(err)
         else console.log("updated")
     })
-
+ 
 })
 
 app.post("/addreq" , (req, res) => {
@@ -646,4 +654,14 @@ app.get('/getreport/:pid', (req,res) => {
     })
 })
 
+
+app.get('/gethome/:tid', (req, res) =>{
+    const Tid = req.params.tid; 
+
+    const st = 'SELECT * FROM (tenant_records T inner join property P on T.PID = P.ID inner join phone_numbers H on P.OWNER_ID = H.AADHAR_ID AND H.type = 0 inner join user U on P.OWNER_ID = U.aadhar_id  ) WHERE TID = ?;'; 
+
+    db.query(st, [Tid], (err, resp) =>{
+        res.send(resp )
+    })
+})
 

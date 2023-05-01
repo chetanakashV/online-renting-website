@@ -39,6 +39,9 @@ const AddP = () => {
             Locality: locality, 
             Yoc: yoc, 
             Aid: aid,
+            Beds: beds,
+            Flat: flat,
+            Res: res
             
         })
      

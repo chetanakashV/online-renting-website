@@ -76,7 +76,7 @@ const Editprof = () => {
 
     return (
         <div style = {{ textAlign: 'center'}}> <br/><br/>
-        <button onClick={() => setDo(!temp)}> Reload</button> <br/><br/>
+        <button className = 'button-9' onClick={() => setDo(!temp)}> Reload</button> <br/><br/>
 
         <label>Name: </label> <br/>
         <input type='text' placeholder = "enter your name" required value = {name} onChange = {e => setName(e.target.value)}  /> <br/>
@@ -99,9 +99,9 @@ const Editprof = () => {
         <label> Official Phone :</label>  <br/>
         <input type = "tel" value = {Opno} onChange={e => setOpno(e.target.value)} /> <br/>
         
-        <br/>
 
-        <button onClick={update}>Update</button>
+
+        <button className = 'button-9' onClick={update}>Update</button>
        
         </div>
     )

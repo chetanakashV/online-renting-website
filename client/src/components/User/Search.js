@@ -15,7 +15,7 @@ const Search = () => {
     return (
        <>
        <br/>
-       <input type = "number" onChange={e => setPid(e.target.value)} />  <button onClick={getit} > Search</button>
+       <input type = "number" onChange={e => setPid(e.target.value)} /> <br/> <br/><button className='button-s'onClick={getit} > Search</button>
        </>
     )
 }

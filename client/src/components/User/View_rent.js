@@ -9,7 +9,7 @@ const ViewR = () => {
     const [properties, setProperties] = useState([]); 
     const [rentproperties, setRentProperties] = useState([]);
     const [reloaded, setReloaded] = useState(false);
-    const navigate  = useNavigate(); 
+    const navigate  = useNavigate();
 
     var aid = localStorage.getItem("aadhar");
     useEffect (() => {

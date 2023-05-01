@@ -20,8 +20,9 @@ const Report = () => {
 
     return (
         <div style = {{textAlign: "center"}}>
-            <br/><br/>
-            <input type = "number" onChange={e => setPid(e.target.value)} />  <button onClick={getreport}> Get </button> <br/><br/>
+            <br/><br/><br/>
+            
+            <input type = "number" onChange={e => setPid(e.target.value)} />  <br/><button className = 'button-9' onClick={getreport}> Get </button> <br/><br/>
         { valid && 
         <table  className='table table-striped table-bordered' >
         <thead> 

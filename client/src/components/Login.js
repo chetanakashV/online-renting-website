@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import Axios from 'axios'
+import './land.css'
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import imggi from './images/login.jpeg'
 
 const Login = () => {
 
@@ -55,17 +57,18 @@ const Login = () => {
 
     return (
 
-        <div style={{textAlign: "center"}}><br/><br/>
-    <input type = 'number' placeholder = "enter your aadhar id " required onChange = {e => setAid(e.target.value)} /><br/><br/>
-    <input type = 'text' placeholder = "enter your password" required onChange = {e => setPass(e.target.value)} /><br/><br/>
-
-    <button onClick = {login} type='submit' > Login </button>
+        <div  style={{textAlign: "center",height: '745px',backgroundImage: `url(${imggi})`,   backgroundSize: 'cover',  backgroundPosition: 'center', width: '100%', backgroundRepeat: 'no-repeat' }}><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        
+    <input type = 'number' placeholder = "Enter your aadhar id " required onChange = {e => setAid(e.target.value)} /><br/><br/>
+    <input type = 'text' placeholder = "Enter your password" required onChange = {e => setPass(e.target.value)} /><br/><br/>
+    
+    <button className='button-9' onClick = {login} type='submit' > Login </button>
 
         {dbaStatus && navigate('/home0')}
         {managerStatus && navigate('/home1')}
         {loginStatus && navigate('/home')}
-
-        </div>
+    </div>
+    
     )
 }
 

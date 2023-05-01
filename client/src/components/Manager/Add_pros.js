@@ -15,6 +15,10 @@ const AddProp = () => {
     const [locality, setLocality] = useState(""); 
     const [yoc, setYoc] = useState(1800); 
     const [aid, setAid] = useState(0); 
+    const [res, setRes] = useState(false); 
+    const [flat, setFlat] = useState(false); 
+    const [beds, setBeds] = useState(1); 
+    const [shop, setShop] = useState(false); 
 
     const add =  () => {
       
@@ -33,6 +37,9 @@ const AddProp = () => {
             Locality: locality, 
             Yoc: yoc, 
             Aid: aid,
+            Beds: beds,
+            Flat: flat,
+            Res: res
           
         }).then(window.alert("the property is added"))
      

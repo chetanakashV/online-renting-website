@@ -51,7 +51,7 @@ useEffect(()=> {
          setEndt(propslist[0].END_DATE);
          setCity(propslist[0].CITY); 
          setTarea(propslist[0].TOTAL_AREA); 
-         setParea(propslist[0].PLINTH_AREA); 
+         setParea(propslist[0].PLINTH_AREA);  
          setNof(propslist[0].NO_OF_FLOORS); 
         setRent(propslist[0].RENT_PER_MONTH); 
          setAgecom(propslist[0].AGENCY_COMMISSION); 

@@ -7,6 +7,8 @@ import ViewRL from './User/View_rentL';
 import ViewRP from './User/View_rentP';
 import ViewRq from './User/View_requests';
 import { useNavigate } from 'react-router';
+import Search from './User/Search';
+import Editprof from './User/Edit_profile';
 
 const Home = () => {
     
@@ -14,10 +16,14 @@ const Home = () => {
     var user = localStorage.getItem("user")
     var loggedin = localStorage.getItem("loggedin")
     const [ap, setAp] = useState(false); 
+   
     const [vp, setVp] = useState(false); 
     const [lpr, setLpr] = useState(false); 
     const [filter, setFilter] = useState(""); 
     const [vreq, setVreq] = useState(false); 
+    const [search, setSearch] = useState(false); 
+    const [grep, setGrep] = useState(0); 
+    
     var aid = localStorage.getItem('aadhar')
 
     const logout = () => {
@@ -25,6 +31,14 @@ const Home = () => {
         localStorage.setItem("user", false)
         localStorage.setItem("dba", false)
         navigate("/");
+    }
+
+    const genrep = () => {
+        navigate("/generatereport")
+    }
+
+    const editProfile = () => {
+        navigate("/editprofile");
     }
 
     const change = () => {
@@ -35,12 +49,17 @@ const Home = () => {
     }
 
 
+
+
     return (
 
         <div style = {{textAlign : 'center'}}>
              <br/> <br/>
         Welcome back, user {aid} <div style = {{position: "relative", right: "-40%"}}> <button onClick = {logout}> Logout </button> </div> <br/> <br/><br/>
             
+
+        <button onClick={() => {editProfile()}} style = {{width: '350px', height: '30px', borderRadius: '5px'}}>Edit Profile</button> <br/> <br/> <br/> <br/>
+       
 
         <button onClick={() => {setAp(!ap)}} style = {{width: '350px', height: '30px', borderRadius: '5px'}}>Add Property</button> <br/> <br/>
         {ap && <AddP/>} <br/><br/>
@@ -54,6 +73,15 @@ const Home = () => {
         {lpr && filter == "price" &&  <ViewRP/>}
         <button  style = {{width: '350px', height: '30px', borderRadius: '5px'}} onClick={() => setVreq(!vreq)}> View Pending requests for my Properties</button> <br/> <br/>
         { vreq && <ViewRq/> }<br/><br/>
+
+        <button  style = {{width: '350px', height: '30px', borderRadius: '5px'}} onClick={() => setSearch(!search)}> Get status of Property</button> <br/> <br/>
+        {search && <Search/>}
+        <br/> <br/>
+
+        <button  style = {{width: '350px', height: '30px', borderRadius: '5px'}} onClick={() => genrep()}> Generate Report of Property</button> <br/> <br/>
+        
+        <br/> <br/>
+
         </div>
     )
 }

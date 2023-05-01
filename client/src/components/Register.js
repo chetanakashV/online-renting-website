@@ -12,6 +12,8 @@ const Register = () => {
     const [stno, setStno] = useState(""); 
     const [city, setCity] = useState(""); 
     const [state, setState] = useState(""); 
+    const [pno1, setPno1] = useState(); 
+    const [pno2, setPon2] = useState(); 
 
     const register = () => {
         Axios.post('http://localhost:3001/register',{
@@ -23,7 +25,9 @@ const Register = () => {
             Dno: dno, 
             Stno: stno, 
             City: city,
-            State: state
+            State: state,
+            Pno1: pno1,
+            Pno2: pno2
         }).then(window.alert("user is registered"))
         
     }
@@ -39,6 +43,8 @@ const Register = () => {
         <input type='text' placeholder = "enter your street name" onChange = {e => setStno(e.target.value)} required/> <br/>
         <input type='text' placeholder = "enter your city name" onChange = {e => setCity(e.target.value)}required/> <br/>
         <input type='text' placeholder = "enter your  state name" onChange = {e => setState(e.target.value)} required/> <br/>
+        <input type = 'tel' placeholder='enter your official phone number' onChange={e => setPno1(e.target.value)}/>
+        <input type = 'tel' placeholder='enter your personal phone number' onChange={e => setPon2(e.target.value)}/>
         <button onClick = {register}> register</button>
         </div>
     )

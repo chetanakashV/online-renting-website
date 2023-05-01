@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css';
+import { useNavigate } from 'react-router';
 
 const ViewRL = () => {
 
-
+    const navigate = useNavigate();
     const [properties, setProperties] = useState([]); 
     const [rentProperties, setRentProperties] = useState([])
     const [filteron, setFilteron] = useState(false); 
@@ -12,14 +13,9 @@ const ViewRL = () => {
 
     var aid = localStorage.getItem("aadhar");
  
-    const rentP = (id,oid, endt) => {
-        Axios.post('http://localhost:3001/addreq', {
-            pid: id, 
-            oid: oid, 
-            rid: aid,  
-            endt: endt
-        })
-    }
+    const rentP = (id) => {
+        navigate(`/rentrequest/${id}`)
+     }
 
     const revokeP = (id) => {
        Axios.get(`http://localhost:3001/revokerequest/${id}&${aid}`)
@@ -77,7 +73,7 @@ const ViewRL = () => {
             <td><p> {member.ADDRESS}</p></td>
             <td><p> {member.LOCALITY}</p></td>
             <td><p> {member.YEAR_OF_CONSTRUCTION}</p></td>
-            <td><button onClick={() => {rentP(member.ID, member.OWNER_ID, member.END_DATE.slice(0,10))}}>Rent</button></td>
+            <td><button onClick={() => {rentP(member.ID)}}>Rent</button></td>
             </tr>
             )}
              {rentProperties.map(member =>
@@ -98,7 +94,7 @@ const ViewRL = () => {
             </tr>
             )}
         </tbody>
-    </table>}
+    </table>} <br/><br/>
         </>
     )
 }

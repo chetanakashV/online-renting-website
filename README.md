@@ -4,7 +4,7 @@ A web application that allows users to rent properties online. The application i
 It provides a user-friendly interface for searching and browsing available properties, and allows users to submit rental applications 
 and manage their rental agreements.
 
-## Features :
+## Features : 
 Property search and browsing
 User registration and login
 Property listing with  various filters (like properties in hyderabad city) 

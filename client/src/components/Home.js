@@ -71,7 +71,7 @@ const Home = () => {
         <p> You are currently renting: </p>
 
         {houses.map(member => 
-            <p>{member.PID} WHOSE OWNER IS  {member.NAME} PHONE NUMBER IS {member.phone_number}</p>  
+            <p>{member.PID} HOUSE OWNER IS  {member.NAME} PHONE NUMBER IS {member.phone_number}</p>  
             )}
    
             

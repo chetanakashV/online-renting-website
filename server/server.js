@@ -11,15 +11,15 @@ const db = mysql.createPool({
     password: 'sherlock',
     database: 'dbms'
 })
-
-app.use(cors())
+ 
+app.use(cors()) 
 app.use(express.json())
 
 app.use(bodyParser.urlencoded({extended: true}))
 
-app.listen(3001, () => { 
+app.listen(3001, () => {  
     console.log("server is up and running")
-})
+}) 
  
 // app.get('/', (req,res) => {
 //     // res.send("hello its working")
@@ -277,12 +277,18 @@ app.get("/getmanagers", (req, res) => {
 
 app.post("/deleteuser/:id", (req,res) => {
     const st = 'DELETE FROM `dbms`.`user` WHERE AADHAR_ID = ?;'
+    const st2 = 'DELETE FROM phone_numbers WHERE AADHAR_ID = ?;'
     const id = req.params.id;
 
-    db.query(st, [id], (err,res) => {
+    db.query(st2, [id], (err,res) => {
         if(err) console.log(err)
-        else console.log(`user with id ${id} is deleted`)
-    })
+        else {
+            db.query(st, [id], (err2, res2) => {
+                if(err2) console.log(err2)
+                else console.log("user deleted")
+            })
+        } 
+    })  
 
 })
 

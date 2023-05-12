@@ -646,7 +646,7 @@ app.get('/enquireproperty/:pid', (req,res) => {
         if(err) console.log(err)
         if(resp.length == 0) {res.json({available: true})}
         else {res.json({available: false})}
-    })
+    }) 
 })
 
 app.get('/getreport/:pid', (req,res) => {
@@ -664,10 +664,25 @@ app.get('/getreport/:pid', (req,res) => {
 app.get('/gethome/:tid', (req, res) =>{
     const Tid = req.params.tid; 
 
-    const st = 'SELECT * FROM (tenant_records T inner join property P on T.PID = P.ID inner join phone_numbers H on P.OWNER_ID = H.AADHAR_ID AND H.type = 0 inner join user U on P.OWNER_ID = U.aadhar_id  ) WHERE TID = ?;'; 
+    const st = 'SELECT * FROM (tenant_records T inner join property P on T.PID = P.ID inner join phone_numbers H on P.OWNER_ID = H.AADHAR_ID AND H.type = 0 inner join user U on P.OWNER_ID = U.aadhar_id  ) WHERE TID = ? AND E_DATE > ?;'; 
 
-    db.query(st, [Tid], (err, resp) =>{
+    db.query(st, [Tid, date], (err, resp) =>{
         res.send(resp )
     })
 })
 
+
+app.get('/validprop/:id', (req,res) => {
+    id = req.params.id; 
+
+    const st = 'SELECT * FROM property WHERE ID = ?;';
+     
+    db.query(st, [id], (err, response) => {
+        if(err) console.log(err)
+        else 
+            if(response.length == 0) res.json({valid: false})
+            else res.json({valid: true})
+        
+    })
+    
+})

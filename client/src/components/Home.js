@@ -33,7 +33,7 @@ const Home = () => {
 
     useEffect(() => {
         Axios.get(`http://localhost:3001/gethome/${aid}`).then(response => setHouses(response.data))
-    })
+    }) 
 
    
 

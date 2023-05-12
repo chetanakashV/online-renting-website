@@ -6,10 +6,17 @@ const Search = () => {
     const [pid, setPid] = useState(0);
 
     const getit = () => {
-        Axios.get(`http://localhost:3001/enquireproperty/${pid}`).then(response => {
-           if(response.data.available) window.alert("property is available")
-           else window.alert("property is occupied")
-        })
+        if(pid<=0) window.alert("property ids start with 1");
+        
+        else 
+        {
+            Axios.get(`http://localhost:3001/enquireproperty/${pid}`).then(response => {
+                if(response.data.available) window.alert("property is available")
+                else window.alert("property is occupied")
+             })
+            
+       
+    }
     }
 
     return (

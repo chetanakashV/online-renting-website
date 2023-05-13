@@ -611,7 +611,7 @@ app.post("/approverequest", (req,res) => {
     const Stdt = req.body.Stdt.slice(0,10); 
     const Endt = req.body.Endt.slice(0,10); 
     const Agecom = req.body.Ac; 
-    const Pih = req.body.Pih; 
+    const Pih = req.body.Pih;    
     const Tid = req.body.Rid;
 
     const st1 = 'INSERT INTO records (ID, ST_DATE, E_DATE, A_COMMISSION, PERCENT_IN_HIKE) VALUES (?,?,?,?,?);';

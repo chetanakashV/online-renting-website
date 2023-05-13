@@ -59,10 +59,12 @@ const Login = () => {
 
         <div  style={{textAlign: "center",height: '745px',backgroundImage: `url(${imggi})`,   backgroundSize: 'cover',  backgroundPosition: 'center', width: '100%', backgroundRepeat: 'no-repeat' }}><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         
-    <input type = 'number' placeholder = "Enter your aadhar id " required onChange = {e => setAid(e.target.value)} /><br/><br/>
-    <input type = 'text' placeholder = "Enter your password" required onChange = {e => setPass(e.target.value)} /><br/><br/>
+    <input type = 'number' placeholder = "Enter your aadhar id " style = {{borderRadius: '5px', width: '250px', height: '33px'}} required onChange = {e => setAid(e.target.value)} /><br/><br/>
+    <input type = 'text' placeholder = "Enter your password" required style = {{borderRadius: '5px', width: '250px', height: '33px'}} onChange = {e => setPass(e.target.value)} /><br/><br/>
     
-    <button className='button-9' onClick = {login} type='submit' > Login </button>
+    <button className='button-9' style = {{borderRadius: '5px', width: '250px', height: '38px'}} onClick = {login} type='submit' > Login </button> <br/><br/>
+
+        <NavLink to = '/register' style = {{textDecoration: 'none', color: "black"}}>New Here? Click here to Register</NavLink>
 
         {dbaStatus && navigate('/home0')}
         {managerStatus && navigate('/home1')}

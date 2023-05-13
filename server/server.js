@@ -646,7 +646,7 @@ app.get('/enquireproperty/:pid', (req,res) => {
         if(err) console.log(err)
         if(resp.length == 0) {res.json({available: true})}
         else {res.json({available: false})}
-    }) 
+    })   
 })
 
 app.get('/getreport/:pid', (req,res) => {

@@ -1,14 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import Axios from 'axios'
+import {useReactToPrint} from 'react-to-print';
 
 const Report = () => {
+
+    const component = useRef();
 
     const [pid, setPid] = useState(0); 
     const [details, setDetails] = useState([]);
     const [valid, setValid] = useState(false);
 
+    const generatePDF = useReactToPrint({
+        content: () => component.current, 
+        documentTitle: `Rent records of Property ${pid}`
+    });
+
     const getreport  = () =>{
-        if(pid == 0){ window.alert("please enter valid property id"); setValid(false)}
+        if(pid <= 0){ window.alert("please enter valid property id"); setValid(false)}
         else {
             setValid(true)
             Axios.get(`http://localhost:3001/getreport/${pid}`).then(
@@ -24,7 +32,8 @@ const Report = () => {
             
             <input type = "number" onChange={e => setPid(e.target.value)} />  <br/><button className = 'button-9' onClick={getreport}> Get </button> <br/><br/>
         { valid && 
-        <table  className='table table-striped table-bordered' >
+        <div ref = {component}><br/><br/><br/> <br/><br/>
+        <table   className='table table-striped table-bordered'  style = {{width: "90%", position: 'relative', right: "-5%"}}>
         <thead> 
          <td> <p> Tenant Id</p></td>
          <td> <p> Start Date</p></td>
@@ -44,7 +53,10 @@ const Report = () => {
             )}
         </tbody>
         </table>
+        </div>
 }
+ {valid &&   <button onClick = {generatePDF} className='button-9'> Print</button>}
+    
         </div>
     )
 }

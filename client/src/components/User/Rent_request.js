@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import Axios from 'axios'
 import { useParams } from 'react-router';
+import {useReactToPrint} from 'react-to-print'
 
 const ViewReqform= () => {
 
